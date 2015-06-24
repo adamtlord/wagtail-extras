@@ -1,0 +1,13 @@
+{% load i18n %}
+
+<h2>
+    {% blocktrans count counter=total_results %}
+        There is one match
+    {% plural %}
+        There are {{ counter }} matches
+    {% endblocktrans %}
+</h2>
+
+{% if snippets %}
+    {% include 'wagtail_extras/snippet_search/_browse_results.html' %}
+{% endif %}

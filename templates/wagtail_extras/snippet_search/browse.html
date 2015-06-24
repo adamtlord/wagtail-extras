@@ -1,0 +1,27 @@
+{% load i18n %}
+{% trans "Choose" as choose_str %}
+{% trans model_name|title as subtitle %}
+
+<header class="nice-padding hasform">
+    <div class="row">
+        <div class="left">
+            <div class="col">
+                <h1 class="icon icon-doc-empty-inverse">{{ choose_str }} <span>{{ subtitle }}</span></h1>
+            </div>
+            <form class="col search-form" action="{% url 'wagtail_search_snippet' app_name model_name %}{% if query_parameters %}?{{ query_parameters }}{% endif %}" method="get">
+                <ul class="fields">
+                    {% for field in search_form %}
+                        {% include "wagtailadmin/shared/field_as_li.html" with field=field field_classes="field-small iconfield" input_classes="icon-search" %}
+                    {% endfor %}
+                    <li class="submit visuallyhidden"><input type="submit" value="Search" class="button" /></li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</header>
+
+<div class="nice-padding">
+    <div class="page-results">
+        {% include 'wagtail_extras/snippet_search/_browse_results.html' %}
+    </div>
+</div>

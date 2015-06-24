@@ -1,0 +1,70 @@
+{% load i18n %}
+{% load wagtailadmin_tags %}
+{% url "wagtail_search_snippet" app_name model_name as linkurl %}
+
+{% if snippets and snippets.paginator %}
+    <div class="pagination pagination-top">
+        <p>{% blocktrans with page_number=snippets.number num_pages=snippets.paginator.num_pages %}
+            Page {{ page_number }} of {{ num_pages }}.
+        {% endblocktrans %}</p>
+        <ul>
+            <li class="prev">
+                {% if snippets.has_previous %}
+                   <a href="#" data-page="{{ snippets.previous_page_number }}" class="icon icon-arrow-left">{% trans "Previous" %}</a>
+                {% endif %}
+            </li>
+            <li class="next">
+                {% if snippets.has_next %}
+                    <a href="#" data-page="{{ snippets.next_page_number }}" class="icon icon-arrow-right-after">{% trans 'Next' %}</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+{% endif %}
+
+{% if snippets %}
+<table id="snippet-chooser-list" class="listing" data-url="{{ linkurl }}">
+    <thead>
+        <tr class="table-headers">
+            <th class="title">Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if snippets %}
+            {% for snippet in snippets %}
+                <tr>
+                    <td class="title" valign="top">
+                        <h2>
+                            <a class="snippet-choice" href="#{{ snippet.id }}" data-id="{{ snippet.id }}" data-title="{{ snippet.content }}" data-edit-url="{% url 'wagtailsnippets_edit' app_name model_name snippet.id %}">
+                                {{ snippet.content|safe }}
+                            </a>
+                        </h2>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr><td colspan="3" class="no-results-message"><p>No snippets</td></tr>
+        {% endif %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if snippets and snippets.paginator %}
+    <div class="pagination">
+        <p>{% blocktrans with page_number=snippets.number num_pages=snippets.paginator.num_pages %}
+            Page {{ page_number }} of {{ num_pages }}.
+        {% endblocktrans %}</p>
+        <ul>
+            <li class="prev">
+                {% if snippets.has_previous %}
+                   <a href="#" data-page="{{ snippets.previous_page_number }}" class="icon icon-arrow-left">{% trans "Previous" %}</a>
+                {% endif %}
+            </li>
+            <li class="next">
+                {% if snippets.has_next %}
+                    <a href="#" data-page="{{ snippets.next_page_number }}" class="icon icon-arrow-right-after">{% trans 'Next' %}</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+{% endif %}
